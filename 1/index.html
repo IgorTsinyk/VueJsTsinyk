@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+
+<body>
+    <div id="app">
+        <label>
+            ПІБ студента
+            <input type="text" v-model="name">
+        </label> <br>
+
+        <label>
+            Кімната
+            <select v-model="selectRoom">
+                <option v-for="room in rooms" :key="room.id" :value="room.id">
+                    {{room.text}}
+                </option>
+            </select>
+        </label> <br>
+
+        <button @click="addNewStudent">Додати</button>
+        <hr>
+
+        <div>
+            <label>
+                Список жильців гуртожитку
+            </label>
+            <table border="2px" v-if="newStudentRoom">
+                <tr>
+                    <th>ПІБ</th>
+                    <th>Кімната</th>
+                </tr>
+                <tr>
+                    <td>
+                        <div v-for="studetn in getStudentList" :key="index">
+                            {{studetn}}
+                        </div>
+                    </td>
+                    <td>
+                        <div v-for="newRoom in getRoomList" :key="index">
+                            {{newRoom}}
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+    <script>
+        const rooms = [
+            {
+                id: 1,
+                text: "12a"
+            },
+            {
+                id: 2,
+                text: "13b"
+            },
+            {
+                id: 3,
+                text: "14c"
+            },
+            {
+                id: 4,
+                text: "15d"
+            },
+            {
+                id: 5,
+                text: "16e"
+            },
+        ]
+        var app = new Vue({
+            el: "#app",
+            data: {
+                name: null,
+                rooms,
+                selectRoom: null,
+                searchStudent: null,
+                searchRoom: null,
+                arrRooms: [],
+                arrStudents: []
+            },
+            computed: {
+                getStudentList() {
+                    return this.arrStudents
+                },
+                getRoomList() {
+                    return this.arrRooms
+                },
+                newStudentRoom() {
+                    return this.arrRooms.length || this.arrStudents.length
+                }
+            },
+            watch: {},
+            methods: {
+                addNewStudent() {
+                    if (this.selectRoom) {
+                        this.arrRooms.push(this.selectRoom)
+                        this.arrStudents.push(this.name)
+                    }
+                    else alert("Заповніть поля")
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
